@@ -11,6 +11,8 @@
     "test:api": "node scripts/smoke-test.js",
     "seed": "node scripts/seed-demo.js",
     "deck:pdf": "node scripts/export-deck.js",
+    "deck:pptx": "node scripts/build-pptx.js",
+    "deck:ppt-pdf": "node scripts/export-pptx-pdf.js",
     "report:sample": "node scripts/sample-report.js"
   },
   "engines": {
