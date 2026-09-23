@@ -25,9 +25,11 @@ const path = require('path');
 const runtimeDir = process.env.NAWI_DATA_DIR || path.join(os.tmpdir(), 'nawi-runtime');
 fs.mkdirSync(runtimeDir, { recursive: true });
 
+// The schema is `require`d rather than copied so that the serverless bundler
+// traces it into the deployment, then written where the engine can read it.
 const runtimeRules = path.join(runtimeDir, 'oiml-r76.json');
-if (!fs.existsSync(runtimeRules) && fs.existsSync(path.join(__dirname, '..', 'rules', 'oiml-r76.json'))) {
-  fs.copyFileSync(path.join(__dirname, '..', 'rules', 'oiml-r76.json'), runtimeRules);
+if (!fs.existsSync(runtimeRules)) {
+  fs.writeFileSync(runtimeRules, JSON.stringify(require('../rules/oiml-r76.json'), null, 2), 'utf8');
 }
 
 process.env.NAWI_DATA_DIR = runtimeDir;
