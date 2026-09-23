@@ -116,7 +116,29 @@ docker run -d --name nawi-r76 -p 3000:3000 -v nawi-data:/data nawi-r76
 
 `--shm-size=1g` helps if you render many reports concurrently.
 
-## 5. Back-ups and retention
+## 5. Serverless demonstration deployment (Vercel)
+
+`api/index.js` and `vercel.json` publish the same application to Vercel, so a reviewer can open it in a
+browser without installing anything:
+
+```bash
+npx vercel login          # once, on the machine performing the deploy
+npx vercel --prod --yes   # run from the sih26035-nawi directory
+```
+
+The serverless runtime differs from a laboratory machine in ways that matter, so the demonstration
+build states them rather than hiding them:
+
+| Constraint | Effect | Why it is acceptable here |
+|---|---|---|
+| The function bundle is read-only; only `/tmp` is writable | The entry point redirects the repository, audit ledger, uploads, generated reports and session secret into a runtime directory, and seeds the rule schema, the four roles and the demonstration records when it finds that directory empty | Nothing has to be configured after deploy; the instance opens ready to use |
+| `/tmp` is per instance and ephemeral | Records entered through the deployment disappear when the instance is recycled, and two instances do not share state | It is a demonstration of the application, not a laboratory of record |
+| No Chromium binary in the runtime | PDF rendering is unavailable; the editable Word report and the printable HTML view are still produced, and the API reports the PDF failure per format | The calculation engine, validation, workflow and Word/HTML report generation all remain demonstrable |
+
+For records that must survive, use the workstation, server or container deployment in sections 2 to 4,
+or move `store.js` to PostgreSQL and host the application where a persistent disk is available.
+
+## 6. Back-ups and retention
 
 Everything that must survive is inside the data directory:
 
@@ -139,7 +161,7 @@ tar --exclude='data/generated' -czf /srv/backup/nawi-$(date +%F).tar.gz \
 Because `tests.json` and `audit.json` are plain JSON, a backup is verifiable: restore it, start the
 application, and `GET /api/audit` reports whether the hash chain is still intact.
 
-## 6. Hardening checklist
+## 7. Hardening checklist
 
 1. Change all four seeded passwords on first sign-in; delete `admin` if a named administrator exists.
 2. Serve only over TLS; do not expose port 3000 directly.
@@ -150,7 +172,7 @@ application, and `GET /api/audit` reports whether the hash chain is still intact
    and on the dashboard.
 7. Back up nightly and verify a restore at least once before a statutory audit.
 
-## 7. Operational notes
+## 8. Operational notes
 
 * **First start** seeds the four roles and prints them to the log; they are only created when absent.
 * **Ports and paths** are configured through `.env` (see `.env.example`).
