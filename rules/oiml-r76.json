@@ -1,0 +1,268 @@
+{
+  "standard": "OIML R 76-1:2006 (E)",
+  "reportFormat": "OIML R 76-2",
+  "revision": "1.0.0",
+  "updatedAt": "2026-09-23",
+  "source": "OIML R 76-1:2006 - Table 3 (classification), Table 6 (maximum permissible errors on initial verification), 3.5.2, 3.5.3, 3.6, 3.9.2, 3.9.3, 4.5, 4.6, A.4.4",
+  "notes": [
+    "All metrological limits below are transcribed from OIML R 76-1:2006.",
+    "The schema is data, not code: when OIML or the Legal Metrology (General) Rules are",
+    "revised, an administrator edits this file (or uploads a new version in the admin UI)",
+    "and no engine code changes are required. Each generated report records the revision",
+    "used, so historical reports remain traceable to the rule set that produced them."
+  ],
+
+  "mpeInServiceMultiplier": 2,
+
+  "classes": {
+    "I": {
+      "title": "Special accuracy",
+      "bands": [
+        {
+          "eMinGrams": 0.001,
+          "eMaxGrams": null,
+          "intervalsMin": 50000,
+          "intervalsMax": null,
+          "minCapacityInE": 100,
+          "mpeBrackets": [
+            { "upToInE": 50000, "mpeInE": 0.5 },
+            { "upToInE": 200000, "mpeInE": 1 },
+            { "upToInE": null, "mpeInE": 1.5 }
+          ]
+        }
+      ],
+      "notes": "e >= 0.001 g. n may be less than 50 000 for d < 0.1 mg."
+    },
+    "II": {
+      "title": "High accuracy",
+      "bands": [
+        {
+          "eMinGrams": 0.001,
+          "eMaxGrams": 0.05,
+          "intervalsMin": 100,
+          "intervalsMax": 100000,
+          "minCapacityInE": 20,
+          "mpeBrackets": [
+            { "upToInE": 5000, "mpeInE": 0.5 },
+            { "upToInE": 20000, "mpeInE": 1 },
+            { "upToInE": 100000, "mpeInE": 1.5 }
+          ]
+        },
+        {
+          "eMinGrams": 0.1,
+          "eMaxGrams": null,
+          "intervalsMin": 5000,
+          "intervalsMax": 100000,
+          "minCapacityInE": 50,
+          "mpeBrackets": [
+            { "upToInE": 5000, "mpeInE": 0.5 },
+            { "upToInE": 20000, "mpeInE": 1 },
+            { "upToInE": 100000, "mpeInE": 1.5 }
+          ]
+        }
+      ]
+    },
+    "III": {
+      "title": "Medium accuracy",
+      "bands": [
+        {
+          "eMinGrams": 0.1,
+          "eMaxGrams": 2,
+          "intervalsMin": 100,
+          "intervalsMax": 10000,
+          "minCapacityInE": 20,
+          "mpeBrackets": [
+            { "upToInE": 500, "mpeInE": 0.5 },
+            { "upToInE": 2000, "mpeInE": 1 },
+            { "upToInE": 10000, "mpeInE": 1.5 }
+          ]
+        },
+        {
+          "eMinGrams": 5,
+          "eMaxGrams": null,
+          "intervalsMin": 500,
+          "intervalsMax": 10000,
+          "minCapacityInE": 20,
+          "mpeBrackets": [
+            { "upToInE": 500, "mpeInE": 0.5 },
+            { "upToInE": 2000, "mpeInE": 1 },
+            { "upToInE": 10000, "mpeInE": 1.5 }
+          ]
+        }
+      ]
+    },
+    "IIII": {
+      "title": "Ordinary accuracy",
+      "bands": [
+        {
+          "eMinGrams": 5,
+          "eMaxGrams": null,
+          "intervalsMin": 100,
+          "intervalsMax": 1000,
+          "minCapacityInE": 10,
+          "mpeBrackets": [
+            { "upToInE": 50, "mpeInE": 0.5 },
+            { "upToInE": 200, "mpeInE": 1 },
+            { "upToInE": 1000, "mpeInE": 1.5 }
+          ]
+        }
+      ]
+    }
+  },
+
+  "minCapacityOverride": {
+    "gradingInstrumentsInE": 5,
+    "appliesTo": "Instruments that determine a transport tariff or toll (e.g. postal scales, waste weighing)"
+  },
+
+  "errorDetermination": {
+    "clause": "3.5.3, A.4.4.3",
+    "roundingEliminationThresholdE": 0.2,
+    "changeOverSubWeightStep": "1/10 e",
+    "errorBeforeCorrection": "E = P - L = I + 0.5e - dL - L",
+    "correctedError": "Ec = E - E0"
+  },
+
+  "repeatability": {
+    "clause": "3.6.1",
+    "criterion": "rangeOfResults <= abs(mpeAtLoad)",
+    "recommendedReadingsPerLoad": 3,
+    "typicalTestLoadsPercentOfMax": [50, 100]
+  },
+
+  "eccentricity": {
+    "clause": "3.6.2",
+    "criterion": "abs(errorAtPosition - errorAtCentre) <= abs(mpeAtAppliedLoad)",
+    "testLoadFraction": {
+      "default": 0.3333333333,
+      "supportPointsGreaterThanFour": "1 / (n - 1)",
+      "minimalOffCentreLoading": 0.1,
+      "rollingLoads": 0.8
+    },
+    "positions": ["centre", "front-left", "front-right", "rear-left", "rear-right"],
+    "positionsForSupportPoints": 4
+  },
+
+  "zeroSetting": {
+    "clause": "4.5",
+    "initialZeroSettingMaxPercentOfMax": 20,
+    "combinedZeroSettingAndTrackingMaxPercentOfMax": 4,
+    "accuracyE": 0.25,
+    "zeroIndicatingDeviceE": 0.25,
+    "trackingMaxDeviationE": 0.5,
+    "minZeroTrackingRateDPerSecond": 0.25,
+    "testLoadsInE": [0, 10],
+    "trackingNote": "Deviation limit aligned with the 0.5 e stability limit used in 3.9.4; confirm against the licensed copy of R 76-1 used by the laboratory."
+  },
+
+  "tare": {
+    "clause": "4.6",
+    "accuracyE": 0.25,
+    "accuracyMechanicalE": 0.5,
+    "mpeRule": "Same MPE as the instrument for the same value of load (3.5.3.4)",
+    "testLoadsPercentOfMax": [25, 50, 100]
+  },
+
+  "temperature": {
+    "clause": "3.9.2",
+    "defaultLimitsCelsius": { "min": -10, "max": 40 },
+    "minimumSpanCelsius": { "I": 5, "II": 15, "III": 30, "IIII": 30 },
+    "zeroDriftMaxE": { "I": 1, "II": 1, "III": 1, "IIII": 1 },
+    "zeroDriftPerCelsius": { "I": 1, "II": 5, "III": 5, "IIII": 5 },
+    "criterion": "Error at every test temperature shall not exceed the MPE for the applied load"
+  },
+
+  "powerSupply": {
+    "clause": "3.9.3",
+    "mainsLowerFactor": 0.85,
+    "mainsUpperFactor": 1.1,
+    "criterion": "Error at every voltage shall not exceed the MPE for the applied load"
+  },
+
+  "creep": {
+    "clause": "3.9.4",
+    "observationMinutes": 30,
+    "maxDeviationE": 0.5,
+    "criterion": "Deviation of indication over the observation period <= 0.5 e"
+  },
+
+  "discrimination": {
+    "clause": "3.8, 4.2.2",
+    "gentleAdditionalLoadInD": 1.4,
+    "criterion": "An additional load of 1.4 d gently applied shall produce a change of indication of at least one scale interval"
+  },
+
+  "environmentalRecording": {
+    "required": ["ambientTemperatureCelsius", "relativeHumidityPercent", "barometricPressureKpa"],
+    "relativeHumidityPercentRange": [0, 100],
+    "allowedTemperatureRangeCelsius": [-20, 60]
+  },
+
+  "testModules": [
+    {
+      "id": "weighing_test",
+      "title": "Weighing performance test",
+      "clause": "A.4.4.1, A.4.4.2, A.4.4.3",
+      "criterion": "weighing",
+      "direction": "increasing and decreasing",
+      "observations": ["load", "indication", "additionalLoad"],
+      "description": "Errors determined at increasing and decreasing loads, including Min and Max, with change-over sub-weights of 1/10 e."
+    },
+    {
+      "id": "eccentricity_test",
+      "title": "Eccentricity (corner load) test",
+      "clause": "A.4.7, 3.6.2",
+      "criterion": "eccentricity",
+      "observations": ["position", "load", "indication", "additionalLoad"],
+      "description": "Test load of 1/3 of Max applied at the specified positions; each indication shall meet the MPE."
+    },
+    {
+      "id": "repeatability_test",
+      "title": "Repeatability test",
+      "clause": "A.4.4.2, 3.6.1",
+      "criterion": "repeatability",
+      "observations": ["load", "readings"],
+      "description": "Repeated weighings of the same load; the difference between results shall not exceed the absolute MPE for that load."
+    },
+    {
+      "id": "zero_setting_test",
+      "title": "Zero-setting and zero-tracking test",
+      "clause": "A.4.4.2, 4.5",
+      "criterion": "zero",
+      "observations": ["zeroError", "initialZeroLoad", "trackingDeviation"],
+      "description": "Initial zero-setting range, accuracy after zero setting and automatic zero-tracking deviation."
+    },
+    {
+      "id": "tare_test",
+      "title": "Tare device test",
+      "clause": "A.4.6, 4.6",
+      "criterion": "tare",
+      "observations": ["tareLoad", "indicationAfterTare", "additionalLoad"],
+      "description": "Accuracy of the tare device and MPE applied to net values for every tare load."
+    },
+    {
+      "id": "temperature_test",
+      "title": "Temperature influence test",
+      "clause": "A.5.5, 3.9.2",
+      "criterion": "temperature",
+      "observations": ["temperatureCelsius", "load", "indication", "additionalLoad"],
+      "description": "Static temperatures across the specified range; errors shall not exceed the MPE for the applied load."
+    },
+    {
+      "id": "power_supply_test",
+      "title": "Power supply (voltage) influence test",
+      "clause": "A.5.6, 3.9.3",
+      "criterion": "power_supply",
+      "observations": ["voltageFactor", "load", "indication", "additionalLoad"],
+      "description": "Mains voltage between 0.85 and 1.10 of nominal; errors shall not exceed the MPE for the applied load."
+    },
+    {
+      "id": "creep_test",
+      "title": "Creep and return to zero test",
+      "clause": "A.5.2, A.5.3",
+      "criterion": "creep",
+      "observations": ["load", "indication", "elapsedMinutes"],
+      "description": "Deviation of the indication while a load remains on the instrument, and deviation on returning to zero."
+    }
+  ]
+}

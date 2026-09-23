@@ -1,0 +1,10 @@
+node_modules/
+
+# Runtime data: the report repository, audit ledger, session secret and
+# generated documents are laboratory records, not source code.
+data/
+out/
+
+.env
+*.log
+.DS_Store

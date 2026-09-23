@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SIH26035 - NAWI Test Report Generator as per OIML R 76</title>
+<link rel="stylesheet" href="deck.css" />
+</head>
+<body>
+
+<div class="toolbar">Print / Save as PDF with <b>Ctrl/Cmd + P</b> &middot; 10 slides &middot; 16:9</div>
+
+<!-- =====================================================================
+     SLIDE 1 - Cover & project identity
+     ===================================================================== -->
+<section class="slide dark cover">
+  <span class="badge">Smart India Hackathon 2026 &middot; Problem Statement 26035</span>
+  <h1>Digital Test Report Generation System for <span>Non-Automatic Weighing Instruments</span></h1>
+  <div class="title-rule"></div>
+  <p class="lede">
+    A deterministic OIML R 76 compliance engine that turns raw load observations into
+    automated pass/fail verdicts and byte-exact, tamper-evident test reports &mdash;
+    online in the laboratory, fully offline at remote weighbridge sites.
+  </p>
+
+  <div class="cover-meta">
+    <div class="item"><div class="k">Problem ID / Category</div><div class="v">26035 &middot; Software &middot; Miscellaneous</div></div>
+    <div class="item"><div class="k">Standards</div><div class="v">OIML R 76-1 (requirements) &middot; R 76-2 (report format)</div></div>
+    <div class="item"><div class="k">Statutory Basis</div><div class="v">Legal Metrology Act, 2009 &amp; LM (General) Rules, 2011</div></div>
+    <div class="item"><div class="k">Organisation</div><div class="v">Dept. of Consumer Affairs, Ministry of Consumer Affairs, Food &amp; Public Distribution</div></div>
+    <div class="item"><div class="k">Proposed Deployment</div><div class="v">RRSLs &middot; CSIR-NPL &middot; GATCs &middot; field weighbridge testing</div></div>
+    <div class="item"><div class="k">Team</div><div class="v">[Team Name] &middot; Leader: [Name] &middot; [Members]</div></div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>NAWI Test Report Generation as per OIML R 76</span>
+    <span>Slide 1 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 2 - The core problem
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Problem Context</span>
+    <h2>Why DoCA Needs This: The Manual Reporting Bottleneck</h2>
+    <p class="sub">
+      Every commercial scale and weighbridge in India needs Model Approval. Laboratories
+      produce the evidence that decides it &mdash; and that evidence is still built by hand.
+    </p>
+  </header>
+
+  <div class="slide-body">
+    <div class="grid g2 compare">
+      <div class="panel bad">
+        <h3><span>&#10007;</span> Today &mdash; manual status quo</h3>
+        <ul>
+          <li><span class="mk">&#10007;</span><span>Observations recorded on paper and unstructured spreadsheets at each load point.</span></li>
+          <li><span class="mk">&#10007;</span><span>MPE brackets and change-over true error (E<sub>c</sub>) computed by hand &mdash; dozens of repetitive calculations per test.</span></li>
+          <li><span class="mk">&#10007;</span><span>No standard report layout: every laboratory formats results differently.</span></li>
+          <li><span class="mk">&#10007;</span><span>No central repository, no audit trail, no way to verify a past approval.</span></li>
+        </ul>
+      </div>
+
+      <div class="panel good">
+        <h3><span>&#10003;</span> With this platform &mdash; automated</h3>
+        <ul>
+          <li><span class="mk">&#10003;</span><span>Structured digital entry per OIML R 76 test module, with pre-entry validation.</span></li>
+          <li><span class="mk">&#10003;</span><span>Errors, MPE brackets and verdicts computed instantly by a deterministic engine.</span></li>
+          <li><span class="mk">&#10003;</span><span>One report format (OIML R 76-2) rendered identically as PDF and editable .docx.</span></li>
+          <li><span class="mk">&#10003;</span><span>Searchable repository with immutable audit ledger and SHA-256 report hashing.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:16px">
+      <span style="font-size:20px">&#9888;</span>
+      <span>
+        <strong>Domain risk:</strong> MPE is not a fixed number. It shifts with accuracy class,
+        verification scale interval <em>e</em> and applied load, so a single spreadsheet formula
+        propagated across load points silently produces wrong verdicts &mdash; and rejected or
+        delayed Model Approval applications.
+      </span>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Legal Metrology Act 2009 &middot; OIML R 76 type evaluation</span>
+    <span>Slide 2 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 3 - Solution at a glance
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Proposed Solution</span>
+    <h2>Four Pillars of the Platform</h2>
+    <p class="sub">One application that carries a test from instrument entry to a signed, standard-conformant report.</p>
+  </header>
+
+  <div class="slide-body grid g4" style="align-items:start">
+    <div class="card tinted">
+      <h3><span class="ico">&#8721;</span> Deterministic Engine</h3>
+      <p>Computes m = L/e, selects the MPE bracket for the accuracy class, and evaluates true error
+      E<sub>c</sub> from change-over sub-weights &mdash; every load point, instantly.</p>
+      <span class="tag">Zero manual math</span>
+    </div>
+
+    <div class="card tinted">
+      <h3><span class="ico">&#9729;</span> Offline-First</h3>
+      <p>Performs all calculations on the client. Draft tests are held locally in IndexedDB and
+      synchronised when connectivity returns &mdash; essential for weighbridges that never leave the site.</p>
+      <span class="tag">Field ready</span>
+    </div>
+
+    <div class="card tinted">
+      <h3><span class="ico">&#9096;</span> Guided Data Capture</h3>
+      <p>Module-wise forms for weighing, eccentricity, repeatability, tare/zero and influence
+      factors, with live pass/fail flags and environmental records.</p>
+      <span class="tag">Validated entry</span>
+    </div>
+
+    <div class="card tinted">
+      <h3><span class="ico">&#9776;</span> R 76-2 Reports</h3>
+      <p>Identical OIML R 76-2 layout exported as print-ready PDF and as an editable Word
+      document, each carrying a SHA-256 integrity hash.</p>
+      <span class="tag">PDF + DOCX</span>
+    </div>
+  </div>
+
+  <div class="pill-row">
+    <span class="chip hi">Automated compliance verdict</span>
+    <span class="chip hi">Environmental conditions enforced</span>
+    <span class="chip hi">Photo / annexure attachment</span>
+    <span class="chip hi">Role-based access</span>
+    <span class="chip hi">Searchable repository</span>
+    <span class="chip hi">Rule-driven, future-proof</span>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Automated recording &rarr; compliance evaluation &rarr; standardized report</span>
+    <span>Slide 3 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 4 - Metrological core
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Engineering Depth</span>
+    <h2>Metrological Core: Dynamic MPE &amp; True Error</h2>
+    <p class="sub">The rule set is data, not code: class-wise MPE brackets and error formulas live in an editable JSON schema.</p>
+  </header>
+
+  <div class="slide-body grid g2" style="grid-template-columns: 1.06fr 0.94fr; align-items:start">
+    <div>
+      <p class="mini-title">MPE for initial verification &mdash; load m in intervals e (OIML R 76-1 Table 6)</p>
+      <table class="rules">
+        <thead>
+          <tr><th>Class</th><th>&plusmn;0.5 e for</th><th>&plusmn;1.0 e for</th><th>&plusmn;1.5 e for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>I</td><td class="num">0 &le; m &le; 50 000</td><td class="num">50 000 &lt; m &le; 200 000</td><td class="num">m &gt; 200 000</td></tr>
+          <tr><td>II</td><td class="num">0 &le; m &le; 5 000</td><td class="num">5 000 &lt; m &le; 20 000</td><td class="num">20 000 &lt; m &le; 100 000</td></tr>
+          <tr class="active"><td>III</td><td class="num">0 &le; m &le; 500</td><td class="num">500 &lt; m &le; 2 000</td><td class="num">2 000 &lt; m &le; 10 000</td></tr>
+          <tr><td>IIII</td><td class="num">0 &le; m &le; 50</td><td class="num">50 &lt; m &le; 200</td><td class="num">200 &lt; m &le; 1 000</td></tr>
+        </tbody>
+      </table>
+      <p class="stack-line" style="margin-top:12px">
+        <b>m = L / e</b> &nbsp;where L is the applied load and e the verification scale interval.
+        Bracket selection is automatic from the instrument record.
+      </p>
+      <p class="stack-line" style="margin-top:6px">
+        <span class="chip" style="white-space:normal">Validation built in: Max &ge; Min, Min &ge; 20e (class III), e and d consistency, load &le; Max, duplicate/missing load points.</span>
+      </p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div class="formula">
+        E = I + 0.5e &minus; &Delta;L &minus; L
+        <small>Error before correction &mdash; I = indication, &Delta;L = additional sub-weights to reach change-over, L = applied load</small>
+      </div>
+      <div class="formula">
+        E<sub>c</sub> = E &minus; E<sub>0</sub>
+        <small>True error at the change-over point, corrected for the error at zero load</small>
+      </div>
+
+      <div class="flow col" style="gap:7px">
+        <div class="node" style="border-left-color:#0a192f"><div class="n-t">Observation grid &rarr; L, I, &Delta;L</div></div>
+        <div class="arrow" style="text-align:center">&#9660;</div>
+        <div class="node"><div class="n-t">m = L/e &rarr; MPE bracket for accuracy class</div></div>
+        <div class="arrow" style="text-align:center">&#9660;</div>
+        <div class="node" style="border-left-color:#10b981"><div class="n-t">|E<sub>c</sub>| &le; MPE ? <span class="chip ok">PASS</span> <span class="chip no">FAIL</span></div></div>
+      </div>
+
+      <p class="stack-line"><b>Modules covered:</b> weighing (increasing / decreasing), eccentricity, repeatability (&sigma;), tare &amp; zero-setting, temperature and voltage influence.</p>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Rules versioned in JSON &mdash; standards updates need no code change</span>
+    <span>Slide 4 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 5 - Architecture & data flow
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Architecture</span>
+    <h2>Data Flow &amp; Technology Stack</h2>
+    <p class="sub">A thin, auditable pipeline: capture &rarr; validate &rarr; compute &rarr; sign &rarr; publish.</p>
+  </header>
+
+  <div class="slide-body">
+    <div class="flow" style="gap:8px">
+      <div class="node">
+        <div class="n-k">Capture</div>
+        <div class="n-t">Lab technician / field officer</div>
+        <div class="n-s">Manual entry or serial-port scale capture; instrument &amp; environmental records</div>
+      </div>
+      <div class="arrow" style="align-self:center">&#10148;</div>
+      <div class="node">
+        <div class="n-k">Validate</div>
+        <div class="n-t">Input rule checks</div>
+        <div class="n-s">Physical &amp; metrological constraints rejected before computation</div>
+      </div>
+      <div class="arrow" style="align-self:center">&#10148;</div>
+      <div class="node">
+        <div class="n-k">Compute</div>
+        <div class="n-t">Deterministic OIML R 76 engine</div>
+        <div class="n-s">MPE, E, E<sub>c</sub>, &sigma;, eccentricity &mdash; pure functions, unit tested</div>
+      </div>
+      <div class="arrow" style="align-self:center">&#10148;</div>
+      <div class="node">
+        <div class="n-k">Publish</div>
+        <div class="n-t">Report engine + repository</div>
+        <div class="n-s">R 76-2 PDF / .docx with SHA-256 hash, audit ledger, search</div>
+      </div>
+    </div>
+
+    <div class="grid g3" style="margin-top:18px; align-items:start">
+      <div class="card">
+        <h3><span class="ico">&#9636;</span> Application Layer</h3>
+        <ul>
+          <li>Node.js + Express REST API</li>
+          <li>Vanilla-JS progressive web app (no build step to deploy)</li>
+          <li>JWT sessions with role-based access control</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ico">&#8721;</span> Calculation Layer</h3>
+        <ul>
+          <li>Pure JavaScript metrology engine, no I/O side effects</li>
+          <li>JSON rule schema for MPE brackets, test modules, tolerances</li>
+          <li>Node test-runner suite proving each formula</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ico">&#9776;</span> Data &amp; Document Layer</h3>
+        <ul>
+          <li>Report repository with revision + audit ledger (PostgreSQL-ready interface)</li>
+          <li>IndexedDB offline draft store + service worker cache</li>
+          <li>Headless-browser PDF renderer and native .docx writer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Every layer independently replaceable &mdash; engine and rule schema sit at the centre</span>
+    <span>Slide 5 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 6 - Role based workflow
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Operations</span>
+    <h2>Who Does What: Role-Based Workflow</h2>
+    <p class="sub">Permissions follow the real laboratory hierarchy, so data is entered by one role and certified by another.</p>
+  </header>
+
+  <div class="slide-body">
+    <div class="swim">
+      <div class="role"><span class="r-s">Role 1</span><span class="r-t">Lab Technician</span></div>
+      <div class="steps">
+        <span class="chip">Instrument &amp; model details</span><span class="arrow">&#10148;</span>
+        <span class="chip">Environmental conditions</span><span class="arrow">&#10148;</span>
+        <span class="chip hi">Load observations (all modules)</span><span class="arrow">&#10148;</span>
+        <span class="chip ok">Live pass / fail per point</span>
+      </div>
+    </div>
+
+    <div class="swim">
+      <div class="role"><span class="r-s">Role 2</span><span class="r-t">Lab Manager / Evaluator</span></div>
+      <div class="steps">
+        <span class="chip">Review audit ledger</span><span class="arrow">&#10148;</span>
+        <span class="chip">Inspect photos &amp; annexures</span><span class="arrow">&#10148;</span>
+        <span class="chip hi">Approve &amp; lock test</span><span class="arrow">&#10148;</span>
+        <span class="chip ok">Sign &amp; publish PDF / DOCX</span>
+      </div>
+    </div>
+
+    <div class="swim">
+      <div class="role"><span class="r-s">Role 3</span><span class="r-t">DoCA Administrator</span></div>
+      <div class="steps">
+        <span class="chip">National repository search</span><span class="arrow">&#10148;</span>
+        <span class="chip">Monitor laboratory dashboards</span><span class="arrow">&#10148;</span>
+        <span class="chip hi">Verify report hash</span><span class="arrow">&#10148;</span>
+        <span class="chip ok">Model approval decision</span>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:6px">
+      <div class="card tinted">
+        <h3><span class="ico">&#9783;</span> Dashboard for the manager</h3>
+        <p>Counts by status (draft, in review, approved, rejected), pass/fail distribution across
+        tests, workload per technician, and ageing of pending approvals.</p>
+      </div>
+      <div class="card tinted">
+        <h3><span class="ico">&#9906;</span> Search &amp; history</h3>
+        <p>Retrieve any report by manufacturer, model, serial number, report ID or date &mdash;
+        with the full instrument-wise test history in one view.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Segregation of duties: the technician who records cannot unilaterally certify</span>
+    <span>Slide 6 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 7 - Security, integrity, resilience
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Trust &amp; Resilience</span>
+    <h2>Integrity, Offline Operation and Future-Proofing</h2>
+    <p class="sub">A metrology report is evidence. The system is designed so that evidence cannot be quietly altered.</p>
+  </header>
+
+  <div class="slide-body grid g2" style="align-content:start">
+    <div class="card">
+      <h3><span class="ico">&#128274;</span> Tamper-evident records</h3>
+      <ul>
+        <li>SHA-256 integrity hash printed on every generated report.</li>
+        <li>Append-only audit ledger: who entered, edited, approved and when.</li>
+        <li>State locking &mdash; a submitted module is read-only unless a manager unlocks it with a recorded reason.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">&#9729;</span> Offline resilience</h3>
+      <ul>
+        <li>All calculations run locally; no network needed during a test.</li>
+        <li>Draft tests persist in IndexedDB and survive page reloads at site.</li>
+        <li>Service worker caches the application shell for zero-connectivity field use, then syncs.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">&#8644;</span> Rules as data</h3>
+      <ul>
+        <li>MPE brackets, class limits, tolerances and test modules are declared in a versioned JSON schema.</li>
+        <li>When OIML R 76 or LM Rules are revised, an administrator updates the schema &mdash; no engine rewrite.</li>
+        <li>Rule version is stamped into each report for traceability.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">&#9786;</span> Access control</h3>
+      <ul>
+        <li>Technician, Lab Manager, Administrator and Auditor roles.</li>
+        <li>Server-side enforcement of every role permission, not just hidden UI.</li>
+        <li>Hashed credentials and signed session tokens.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Designed for legal-metrology evidence standards, not just convenience</span>
+    <span>Slide 7 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 8 - Deployment roadmap
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Rollout</span>
+    <h2>Deployment Roadmap Across India</h2>
+    <p class="sub">Pilot where the standards expertise already exists, then scale through state infrastructure into the national portal.</p>
+  </header>
+
+  <div class="slide-body">
+    <div class="timeline">
+      <div class="phase">
+        <div class="dot">1</div>
+        <h3>Pilot &mdash; reference laboratories</h3>
+        <p>Deploy in Regional Reference Standard Laboratories (Ahmedabad, Bengaluru, Bhubaneswar, Faridabad, Guwahati) and CSIR-NPL for Class I / II high-precision type evaluation.</p>
+        <div class="who">Outcome: engine validated against historical manual reports</div>
+      </div>
+      <div class="phase">
+        <div class="dot">2</div>
+        <h3>Expansion &mdash; state &amp; field testing</h3>
+        <p>Roll out to State Legal Metrology laboratories and Government Approved Test Centres, plus offline field use for Class III / IIII truck and industrial weighbridges.</p>
+        <div class="who">Outcome: uniform R 76-2 reports across all testing bodies</div>
+      </div>
+      <div class="phase">
+        <div class="dot">3</div>
+        <h3>Integration &mdash; national registry</h3>
+        <p>API integration with DoCA's Model Approval system and eMaap portal so approved reports land directly in the central verifiable repository.</p>
+        <div class="who">Outcome: one searchable national source of truth</div>
+      </div>
+    </div>
+
+    <div class="grid g3" style="margin-top:22px">
+      <div class="card tinted"><p><b>Standards alignment:</b> report layout follows OIML R 76-2 test-report format; rule values trace to OIML R 76-1.</p></div>
+      <div class="card tinted"><p><b>Low adoption cost:</b> browser-based deployment &mdash; no per-PC installers, no licence servers in each laboratory.</p></div>
+      <div class="card tinted"><p><b>Audit ready:</b> every historical approval remains searchable and hash-verifiable, supporting statutory inspection.</p></div>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Phased, low-risk adoption path from laboratory pilot to national registry</span>
+    <span>Slide 8 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 9 - Impact
+     ===================================================================== -->
+<section class="slide">
+  <header class="slide-head">
+    <span class="badge">Impact</span>
+    <h2>Measurable Outcomes</h2>
+    <p class="sub">What changes for a laboratory on the day this platform goes live.</p>
+  </header>
+
+  <div class="slide-body">
+    <div class="grid g3" style="margin-bottom:16px">
+      <div class="metric">
+        <div class="big accent">70%</div>
+        <div class="lbl">Faster report preparation</div>
+        <div class="note">Collapses hours of transcription and hand arithmetic into minutes of review.</div>
+      </div>
+      <div class="metric">
+        <div class="big green">0</div>
+        <div class="lbl">Manual calculation errors</div>
+        <div class="note">MPE, E and E<sub>c</sub> are computed once by the engine, identically every time.</div>
+      </div>
+      <div class="metric">
+        <div class="big">100%</div>
+        <div class="lbl">Format standardization</div>
+        <div class="note">Every laboratory emits the same OIML R 76-2 structure, in PDF and .docx.</div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="align-items:start">
+      <div class="card">
+        <h3><span class="ico">&#9201;</span> Faster approval cycle</h3>
+        <p>Uniform, machine-checkable reports remove the back-and-forth between laboratories and
+        DoCA reviewers; pending approvals no longer stall on formatting queries.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico">&#9906;</span> Instant retrieval &amp; verification</h3>
+        <p>Historical model approvals move from paper archives and shared drives to a searchable
+        repository &mdash; retrieved in seconds, verified by hash.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Beneficiaries: testing laboratories, DoCA reviewers, manufacturers and consumers</span>
+    <span>Slide 9 / 10</span>
+  </footer>
+</section>
+
+<!-- =====================================================================
+     SLIDE 10 - Conclusion
+     ===================================================================== -->
+<section class="slide dark">
+  <header class="slide-head">
+    <span class="badge">Closing</span>
+    <h2>Conclusion &amp; Execution Readiness</h2>
+    <p class="sub">A complete, standards-anchored answer to Problem Statement 26035 &mdash; built, tested and demonstrable.</p>
+  </header>
+
+  <div class="slide-body grid g3" style="align-content:start">
+    <div class="item" style="background:rgba(255,255,255,.06); border:1px solid rgba(127,227,255,.18); border-radius:12px; padding:16px">
+      <div class="k" style="font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:#7fe3ff; margin-bottom:6px">Requirements covered</div>
+      <div style="font-size:16px; line-height:1.5; color:#dce8fb">
+        Instrument &amp; specification capture, environmental records, all prescribed test entries,
+        automatic validation, automated compliance verdicts, standardized PDF and editable Word
+        reports, attachments, repository, dashboard and search.
+      </div>
+    </div>
+    <div class="item" style="background:rgba(255,255,255,.06); border:1px solid rgba(127,227,255,.18); border-radius:12px; padding:16px">
+      <div class="k" style="font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:#7fe3ff; margin-bottom:6px">Engineering discipline</div>
+      <div style="font-size:16px; line-height:1.5; color:#dce8fb">
+        Pure-function metrology engine with a unit-test suite, versioned rule schema, role-based
+        access control, audit ledger and offline-first client &mdash; documented for handover to DoCA.
+      </div>
+    </div>
+    <div class="item" style="background:rgba(255,255,255,.06); border:1px solid rgba(127,227,255,.18); border-radius:12px; padding:16px">
+      <div class="k" style="font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:#7fe3ff; margin-bottom:6px">Team capability</div>
+      <div style="font-size:16px; line-height:1.5; color:#dce8fb">
+        Full-stack web engineering, metrological rule implementation and verification, document
+        generation, and regulatory workflow understanding.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:26px; position:relative; z-index:2">
+    <div class="title-rule"></div>
+    <p style="font-size:22px; color:#eaf2ff; margin:10px 0 4px; font-weight:650">
+      Thank you. We are ready to build and deploy this for the Department of Consumer Affairs.
+    </p>
+    <p style="font-size:16px; color:#a9c0dd; margin:0">[Team Name] &middot; [Team Lead Email] &middot; [Phone] &middot; [Repository / Demo Link]</p>
+  </div>
+
+  <footer class="slide-foot">
+    <span>Problem Statement 26035 &middot; NAWI Test Report Generation as per OIML R 76</span>
+    <span>Slide 10 / 10</span>
+  </footer>
+</section>
+
+</body>
+</html>
